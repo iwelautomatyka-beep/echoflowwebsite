@@ -283,6 +283,7 @@ body {
   flex-direction: column;
   gap: 24px;
   align-items: center;
+  justify-content: center;
 }
 
 .phone-shot {
@@ -304,16 +305,20 @@ body {
 
 .screen-slider {
   width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 18px;
   align-items: center;
+  justify-content: center;
 }
 
 .slider-viewport {
   position: relative;
-  width: 100%;
+  width: min(100%, 420px);
   max-width: 420px;
+  margin: 0 auto;
   aspect-ratio: 9 / 19.5;
   min-height: 0;
   display: flex;
@@ -381,6 +386,8 @@ body {
   gap: 14px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .caption-card {
@@ -518,6 +525,7 @@ body {
 
   .screen-slider {
     grid-template-columns: 1fr;
+    max-width: 420px;
   }
 
   .slider-btn {
@@ -597,7 +605,8 @@ body {
   }
 
   .slider-viewport {
-    max-width: min(100%, 340px);
+    width: min(100%, 340px);
+    max-width: 340px;
   }
 
   .caption-card,
