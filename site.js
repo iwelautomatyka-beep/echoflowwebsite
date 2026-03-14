@@ -42,7 +42,7 @@ const copy = {
     q2: "Do I need wired headphones?",
     a2: "Yes. Wired headphones are recommended for a more stable and lower-latency listening path.",
     q3: "Does the app upload voice data?",
-    a3: "No. In the current version, microphone audio is used locally for the app’s core audio features.",
+    a3: "No. In the current version, microphone audio is used locally for the app's core audio features.",
     privacyKicker: "Privacy and trust",
     privacyTitle: "Clear links, simple rules",
     privacyBody: "This site includes local Privacy Policy and Terms pages in the same folder, so the public links work correctly on GitHub Pages.",
@@ -110,12 +110,9 @@ function setLanguage(lang) {
   if (!dict) return;
 
   document.documentElement.lang = lang === "pl" ? "pl" : "en";
-
   document.querySelectorAll("[data-i18n]").forEach((node) => {
     const key = node.dataset.i18n;
-    if (dict[key]) {
-      node.textContent = dict[key];
-    }
+    if (dict[key]) node.textContent = dict[key];
   });
 
   buttons.forEach((btn) => {
@@ -133,8 +130,11 @@ const slides = Array.from(document.querySelectorAll(".slider-slide"));
 const dots = Array.from(document.querySelectorAll(".slider-dot"));
 const prevBtn = document.querySelector(".slider-btn-prev");
 const nextBtn = document.querySelector(".slider-btn-next");
+const sliderViewport = document.querySelector(".slider-viewport");
 
 let currentSlide = 0;
+let touchStartX = 0;
+let touchDeltaX = 0;
 
 function setSlide(index) {
   if (!slides.length) return;
@@ -155,6 +155,24 @@ if (slides.length) {
 
   dots.forEach((dot, index) => {
     dot.addEventListener("click", () => setSlide(index));
+  });
+
+  sliderViewport?.addEventListener("touchstart", (event) => {
+    touchStartX = event.changedTouches[0].clientX;
+    touchDeltaX = 0;
+  }, { passive: true });
+
+  sliderViewport?.addEventListener("touchmove", (event) => {
+    touchDeltaX = event.changedTouches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  sliderViewport?.addEventListener("touchend", () => {
+    if (Math.abs(touchDeltaX) < 40) return;
+    if (touchDeltaX < 0) {
+      setSlide(currentSlide + 1);
+    } else {
+      setSlide(currentSlide - 1);
+    }
   });
 
   setSlide(0);
